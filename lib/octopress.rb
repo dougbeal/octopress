@@ -108,9 +108,10 @@ module Octopress
     if !ENV["OCTOPRESS_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
       begin
         require "bundler"
-        Bundler.require(:default)
-        Bundler.require(:octopress)
-        Bundler.require(:jekyll_plugins)
+        required_gems = Bundler.require(:default)
+        required_gems += Bundler.require(:octopress)
+        required_gems += Bundler.require(:jekyll_plugins)
+        logger.debug("PluginManager:", "Required #{required_gems.map(&:name).join(', ')}")
         true
       rescue LoadError, Bundler::GemfileNotFound
         false
