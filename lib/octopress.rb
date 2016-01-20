@@ -30,8 +30,20 @@ module Octopress
   ]
 
   def logger
-    @logger ||= Mercenary::Command.logger
+    if not @logger
+      if defined? Mercenary::Command.logger
+        @logger ||= Mercenary::Command.logger
+      elsif defined? Jekyll.logger
+        @logger ||= Jekyll.logger
+      else
+        @logger = Logger.new(STDOUT)
+        @logger.level = level || Logger::INFO
+        @logger.formatter = proc do |severity, datetime, progname, msg|
+          "#{identity} | " << "#{severity.downcase.capitalize}:".ljust(7) << " #{msg}\n"
+        end
+      end
     @logger.level = Logger::DEBUG
+    end
     @logger
   end
 
