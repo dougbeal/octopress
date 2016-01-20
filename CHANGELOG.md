@@ -1,5 +1,26 @@
 # Changelog
 
+### 3.1.0 (2015-12-08)
+- Now supporting Jekyll 3+
+
+### 3.0.11 (2015-07-15)
+- Fix: filenames and extensions are preserved when publishing drafts and unpublishing posts.
+
+### 3.0.10 (2015-07-15)
+- Fix: `--force` flag works properly when publishing drafts and unpublishing posts.
+
+### 3.0.9 (2015-06-18)
+- Documentation improvements
+
+### 3.0.8 (2015-06-17)
+- Added documentation for Octopress's deploy project.
+
+### 3.0.7 (2015-06-01)
+- Fixed a bug where pages templates would only show dates if the `new page` command included a `--date` option. Now if a template has a date, the new page will have a date.
+
+### 3.0.6 (2015-05-26)
+- Fixed issue with Bundler gem loading.
+
 ### 3.0.5 (2015-05-12)
 - Support for Jekyll 2 & 3
 - Relaxed version requirements for Jekyll

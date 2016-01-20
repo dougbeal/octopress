@@ -18,6 +18,12 @@ module Octopress
     end
 
     def path
+      name = if @options['path']
+        "#{date_slug}-#{path_slug(@options['path'])}.#{File.extname(@options['path']).sub(/^\./, '')}"
+      else
+        "#{date_slug}-#{title_slug}.#{extension}"
+      end
+      File.join(site.source, '_drafts', name)
       name = "#{date_slug}-#{title_slug}.#{extension}"
       dir = File.join(site.source, '_posts', @options['dir'])
       FileUtils.mkdir_p dir
@@ -33,16 +39,18 @@ module Octopress
       @options['title'] = read_post_yaml('title')
 
       post_options = {
-        'title'   => @options['title'],
-        'date'    => @options['date'],
-        'slug'    => title_slug,
-        'content' => read_post_content,
-        'dir'     => @options['dir'],
-        'type'    => "draft from post",
-        'write_message' => "Unpublished: #{relative_path(path)} →"
+        'title'     => @options['title'],
+        'date'      => @options['date'],
+        'slug'      => path_slug(@options['path']),
+        'extension' => File.extname(@options['path']).sub(/^\./, ''),
+        'content'   => read_post_content,
+        'dir'       => @options['dir'],
+        'type'      => "draft from post",
+        'write_message' => "Unpublished: #{relative_path(path)} →",
+        'force'     => @options['force']
       }
 
-      Draft.new(site, post_options).write     
+      Draft.new(site, post_options).write
       
       # Remove the old post file
       #
